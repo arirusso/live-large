@@ -2,9 +2,11 @@
 
 # libs
 require "active_support/core_ext"
+require "fileutils"
 require "zlib"
 
 # modules
+require "live-large/track"
 
 # classes
 require "live-large/files"
