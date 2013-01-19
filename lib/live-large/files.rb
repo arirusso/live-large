@@ -8,9 +8,9 @@ module LiveLarge
                 :scratch, 
                 :xml
 
-    def initialize(path, &block)
+    def initialize(path)
       initialize_paths(path)
-      open(&block) if block_given?
+      copy_to_workspace
     end
 
     private

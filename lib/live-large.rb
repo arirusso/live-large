@@ -1,8 +1,7 @@
 #!/usr/bin/env ruby
 
 # libs
-require "nokogiri"
-require "nori"
+require "active_support/core_ext"
 require "zlib"
 
 # modules
