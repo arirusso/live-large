@@ -5,7 +5,7 @@ require 'helper'
 class ProjectTest < Test::Unit::TestCase
 
   def project_files
-    LiveLarge::Files.new("/Users/russo/Documents/ableton/10.2 Project/10.2.als")
+    LiveLarge::Files.new("test/assets/test Project/test.als")
   end
 
   def test_copy_to_workspace
