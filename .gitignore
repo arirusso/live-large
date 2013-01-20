@@ -3,7 +3,6 @@
 .bundle
 Gemfile.lock
 pkg/*
-workspace
-workspace/*
-workspace/**
+test/scratch/*
+test/scratch/**
 .DS_Store
