@@ -2,6 +2,7 @@
 
 # libs
 require "active_support/core_ext"
+require "forwardable"
 require "fileutils"
 require "zlib"
 

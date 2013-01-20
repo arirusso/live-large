@@ -4,11 +4,12 @@ module LiveLarge
 
   class Project
 
+    ALIAS = { :created_with_version => "Creator" }
+    TRACK_TYPES = { :audio => "AudioTrack", :midi => "MidiTrack", :return => "ReturnTrack" }
+
     attr_reader :data, 
                 :files, 
-                :audio_tracks, 
-                :midi_tracks, 
-                :return_tracks
+                :tracks
 
     def initialize(path, &block)
       @files = Files.new(path)
@@ -18,17 +19,19 @@ module LiveLarge
       yield if block_given?
     end
 
-    def created_with
-      @data["Ableton"]["Creator"]
+    def [](key)
+      key = ALIAS[key].nil? ? key : ALIAS[key]
+      @data["Ableton"][key]
     end
 
-    def tracks
-      @data["Ableton"]["LiveSet"]["Tracks"]
+    def []=(key, value)
+      key = ALIAS[key].nil? ? key : ALIAS[key]
+      @data["Ableton"][key] = value
     end
 
     def save
-      xml = @data.to_xml
-      Zlib::GzipWriter.open(@files.xml[:path]) { |gz| gz.write(xml) }
+      commit_tracks
+      Zlib::GzipWriter.open(@files.xml[:path]) { |gz| gz.write(@data.to_xml) }
       FileUtils.cp(@files.xml[:path], @files.scratch[:path])
     end
 
@@ -40,17 +43,28 @@ module LiveLarge
       end
     end
 
+    def commit_tracks
+      @tracks.each do |type, tracks|
+        data = @data["Ableton"]["LiveSet"]["Tracks"]
+        key = TRACK_TYPES[type]
+        data[key] = tracks.map(&:data)
+      end
+    end
+
     def populate_data
-      file = File.open(@files.xml[:path], "rb")
-      xml_string = file.read
-      @data = Hash.from_xml(xml_string)
+      file = File.read(@files.xml[:path])
+      @data = Hash.from_xml(file)
     end
 
     def populate_tracks
-      tracks = @data["Ableton"]["LiveSet"]["Tracks"]
-      @audio_tracks = tracks["AudioTrack"].map { |track_data| Track::Audio.new(track_data) }
-      @midi_tracks = tracks["MidiTrack"].map { |track_data| Track::MIDI.new(track_data) }
-      @return_tracks = tracks["ReturnTrack"].map { |track_data| Track::Return.new(track_data) }
+      @tracks ||= {}
+      data = @data["Ableton"]["LiveSet"]["Tracks"]
+      TRACK_TYPES.each do |local_key, data_key|
+        @tracks[local_key] ||= []
+        @tracks[local_key] += data[data_key].map do |track_data|
+          Track.new(local_key, self, track_data)
+        end
+      end
     end
 
   end
