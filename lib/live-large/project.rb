@@ -11,8 +11,8 @@ module LiveLarge
                 :files, 
                 :tracks
 
-    def initialize(path, &block)
-      @files = Files.new(path)
+    def initialize(path, options = {}, &block)
+      @files = Files.new(path, options[:scratch_directory] || ".")
       unzip
       populate_data
       populate_tracks

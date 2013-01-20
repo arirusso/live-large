@@ -8,14 +8,19 @@ module LiveLarge
                 :scratch, 
                 :xml
 
-    def initialize(path)
-      initialize_paths(path)
+    def initialize(path, scratch_directory)
+      initialize_paths(path, scratch_directory)
+      ensure_scratch_directory(scratch_directory)
       copy_to_workspace
     end
 
     private
 
-    def initialize_paths(path)
+    def ensure_scratch_directory(scratch_directory)
+      Dir.mkdir(scratch_directory) unless Dir.exists?(scratch_directory)
+    end
+
+    def initialize_paths(path, scratch_directory)
       filename = path.include?("/") ? path.split(/^(.+)\/([^\/]+)$/).last : path
       xml_filename = filename.gsub(/\.als/, ".xml")
       @origin = {
@@ -23,11 +28,11 @@ module LiveLarge
         :filename => filename
       }
       @scratch = {
-        :path => "workspace/#{filename}",
+        :path => "#{scratch_directory}/#{filename}",
         :filename => filename
       }
       @xml = {
-        :path => "workspace/#{xml_filename}",
+        :path => "#{scratch_directory}/#{xml_filename}",
         :filename => xml_filename
       }
     end

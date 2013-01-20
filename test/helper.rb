@@ -13,7 +13,7 @@ class TestHelper
   end
 
   def self.project
-    @project ||= LiveLarge::Project.new("/Users/russo/Documents/ableton/10.2 Project/10.2.als")
+    @project ||= LiveLarge::Project.new("test/assets/test Project/test.als", :scratch_directory => "test/scratch")
   end
 
 end
