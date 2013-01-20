@@ -6,8 +6,11 @@ module LiveLarge
 
     class Audio
 
-      def initialize(data)
-        @data = data
+      include Base
+
+      def destroy
+        @data = nil
+        @project.audio_tracks.delete(self)
       end
 
     end

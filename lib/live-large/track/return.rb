@@ -6,8 +6,11 @@ module LiveLarge
 
     class Return
 
-      def initialize(data)
-        @data = data
+      include Base
+
+      def destroy
+        @data = nil
+        @project.return_tracks.delete(self)
       end
 
     end

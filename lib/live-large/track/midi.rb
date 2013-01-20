@@ -6,8 +6,11 @@ module LiveLarge
 
     class MIDI
 
-      def initialize(data)
-        @data = data
+      include Base
+
+      def destroy
+        @data = nil
+        @project.midi_tracks.delete(self)
       end
 
     end
