@@ -2,8 +2,9 @@ module LiveProject
 
   class Project
 
-    ALIAS = { :created_with_version => "Creator" }
-    TRACK_TYPES = { :audio => "AudioTrack", :midi => "MidiTrack", :return => "ReturnTrack" }
+    ALIAS = { 
+      :created_with_version => :creator
+    }
 
     attr_reader :data, 
                 :files, 
@@ -18,13 +19,13 @@ module LiveProject
     end
 
     def [](key)
-      key = ALIAS[key].nil? ? key : ALIAS[key]
-      @data["Ableton"][key]
+      key = ALIAS[key] unless ALIAS[key].nil?
+      @data[:ableton][key]
     end
 
     def []=(key, value)
-      key = ALIAS[key].nil? ? key : ALIAS[key]
-      @data["Ableton"][key] = value
+      key = ALIAS[key] unless ALIAS[key].nil?
+      @data[:ableton][key] = value
     end
 
     def save
@@ -45,24 +46,26 @@ module LiveProject
 
     def commit_tracks
       @tracks.each do |type, tracks|
-        data = @data["Ableton"]["LiveSet"]["Tracks"]
-        key = TRACK_TYPES[type]
-        data[key] = tracks.map(&:data)
+        data = @data[:ableton][:live_set][:tracks]
+        data[track_type_key(type)] = tracks.map(&:data)
       end
     end
 
     def populate_data
-      file = File.read(@files.xml[:path])
-      @data = Hash.from_xml(file)
+      @data = ProjectFileData.new(@files.xml[:path])
+    end
+
+    def track_type_key(type)
+      "#{type.to_s}_track"
     end
 
     def populate_tracks
       @tracks ||= {}
-      data = @data["Ableton"]["LiveSet"]["Tracks"]
-      TRACK_TYPES.each do |local_key, data_key|
-        @tracks[local_key] ||= []
-        @tracks[local_key] += data[data_key].map do |track_data|
-          Track.new(local_key, self, track_data)
+      data = @data[:ableton][:live_set][:tracks]
+      [:audio, :midi, :return].each do |key|
+        @tracks[key] ||= []
+        @tracks[key] += data[track_type_key(key)].map do |track_data|
+          Track.new(key, self, track_data)
         end
       end
     end

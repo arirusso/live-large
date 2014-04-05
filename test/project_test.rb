@@ -12,7 +12,7 @@ class LiveProject::ProjectTest < Test::Unit::TestCase
 
       should "populate project" do
         assert_not_nil @project.data
-        assert_equal Hash, @project.data.class
+        assert_equal LiveProject::ProjectFileData, @project.data.class
       end
 
       should "populate tracks" do
@@ -25,23 +25,23 @@ class LiveProject::ProjectTest < Test::Unit::TestCase
       end
 
       should "have working getters" do
-        assert_equal @project.data["Ableton"]["Creator"], @project["Creator"]
+        assert_equal @project.data[:ableton][:creator], @project[:creator]
       end
 
       should "have working setters" do
-        @project["Creator"] = "blah"
-        assert_equal "blah", @project["Creator"]
-        assert_equal "blah", @project.data["Ableton"]["Creator"]
+        @project[:creator] = "blah"
+        assert_equal "blah", @project[:creator]
+        assert_equal "blah", @project.data[:ableton][:creator]
       end
 
       should "have working getter alias" do
-        assert_equal @project.data["Ableton"]["Creator"], @project[:created_with_version]
+        assert_equal @project.data[:ableton][:creator], @project[:created_with_version]
       end
 
       should "have working setter alias" do
         @project[:created_with_version] = "blah!!"
         assert_equal "blah!!", @project[:created_with_version]
-        assert_equal "blah!!", @project.data["Ableton"]["Creator"]
+        assert_equal "blah!!", @project.data[:ableton][:creator]
       end
 
     end

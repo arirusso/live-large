@@ -13,6 +13,7 @@ require "live-project/track"
 # classes
 require "live-project/files"
 require "live-project/project"
+require "live-project/project_file_data"
 
 module LiveProject
 
