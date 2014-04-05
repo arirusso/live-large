@@ -18,4 +18,10 @@ module LiveProject
 
   VERSION = "0.1"
 
+  # Shortcut to Project.new
+  # @return [LiveProject::Project]
+  def self.new(*a)
+    Project.new(*a)
+  end
+
 end

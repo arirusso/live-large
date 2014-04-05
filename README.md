@@ -9,7 +9,7 @@ Open a project
 ```ruby
 require "live-project"
 
-project = LiveProject::Project.new("/path/to/some.als")
+project = LiveProject.new("/path/to/some.als")
 ```
 
 Inspect the project
