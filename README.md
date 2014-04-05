@@ -26,6 +26,7 @@ Make changes
 midi_track.name = "Ensoniq Fizmo"
 puts midi_track.name
 => "Ensoniq Fizmo"
+```
 
 Save the project
 
