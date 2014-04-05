@@ -1,28 +1,50 @@
-# Live Large
+# live-project
 
-Open and edit Ableton Live project files in Ruby.
+Work with Ableton Live project files in Ruby.
 
-## Requirements
+#### Usage
 
-* Active Support
+Open a project
 
-## Usage
+```ruby
+require "live-project"
 
-    gem install live-large
+project = LiveProject::Project.new("/path/to/some.als")
+```
 
-or add to your gemfile
+Inspect the project
 
-once installed,
+```ruby
+midi_track = project.tracks[:midi].first
+puts midi_track.name
+=> "Jupiter-6"
+```
 
-    require "live-large"
+Make changes
+
+```ruby
+midi_track.name = "Ensoniq Fizmo"
+puts midi_track.name
+=> "Ensoniq Fizmo"
+
+Save the project
+
+```ruby
+project.save
+```
+
+#### Installation
+
+    gem install live-project
     
-    project = LiveLarge::Project.new("/path/to/some.als")
-    midi_track = project.tracks[:midi].first
-    puts midi_track.name
-    => "Jupiter-6"
+or with Bundler
+
+    gem "live-project"
     
-## License
+Note that this requires ActiveSupport
 
-Apache 2.0, See the file LICENSE
+#### License
 
-Copyright (c) 2013 Ari Russo  
+Licensed under Apache 2.0, See the file LICENSE
+Copyright (c) 2013-2014 [Ari Russo](http://arirusso.com) 
+
