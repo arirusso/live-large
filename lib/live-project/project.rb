@@ -1,6 +1,4 @@
-#!/usr/bin/env ruby
-
-module LiveLarge
+module LiveProject
 
   class Project
 
@@ -31,7 +29,9 @@ module LiveLarge
 
     def save
       commit_tracks
-      Zlib::GzipWriter.open(@files.xml[:path]) { |gz| gz.write(@data.to_xml) }
+      Zlib::GzipWriter.open(@files.xml[:path]) do |gz| 
+        gz.write(@data.to_xml)
+      end
       FileUtils.cp(@files.xml[:path], @files.scratch[:path])
     end
 

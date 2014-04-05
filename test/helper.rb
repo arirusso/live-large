@@ -1,10 +1,11 @@
-#!/usr/bin/env ruby
-
 dir = File.dirname(File.expand_path(__FILE__))
-$LOAD_PATH.unshift dir + "/../lib"
+$LOAD_PATH.unshift dir + '/../lib'
 
 require "test/unit"
-require "live-large"
+require "mocha/test_unit"
+require "shoulda-context"
+
+require "live-project"
 
 class TestHelper
 
@@ -13,7 +14,7 @@ class TestHelper
   end
 
   def self.project
-    @project ||= LiveLarge::Project.new("test/assets/test Project/test.als", :scratch_directory => "test/scratch")
+    @project ||= LiveProject::Project.new("test/assets/test Project/test.als", :scratch_directory => "test/scratch")
   end
 
 end

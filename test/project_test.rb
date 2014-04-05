@@ -2,7 +2,7 @@
 
 require 'helper'
 
-class ProjectTest < Test::Unit::TestCase
+class LiveProject::ProjectTest < Test::Unit::TestCase
 
   def test_populate_data
     @project = TestHelper.project
@@ -16,7 +16,7 @@ class ProjectTest < Test::Unit::TestCase
     assert_not_empty @project.tracks
     assert_not_nil @project.tracks[:midi]
     assert_not_empty @project.tracks[:midi]
-    assert @project.tracks[:midi].first.kind_of?(LiveLarge::Track::MIDI)
+    assert @project.tracks[:midi].first.kind_of?(LiveProject::Track::MIDI)
   end
 
   def test_getter

@@ -1,6 +1,4 @@
-#!/usr/bin/env ruby
-
-module LiveLarge
+module LiveProject
 
   class Files
 

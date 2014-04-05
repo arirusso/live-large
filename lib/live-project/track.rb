@@ -1,14 +1,12 @@
-#!/usr/bin/env ruby
-
 # modules
-require "live-large/track/base"
+require "live-project/track/base"
 
 # classes
-require "live-large/track/audio"
-require "live-large/track/midi"
-require "live-large/track/return"
+require "live-project/track/audio"
+require "live-project/track/midi"
+require "live-project/track/return"
 
-module LiveLarge
+module LiveProject
 
   module Track
 
