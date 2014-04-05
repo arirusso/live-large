@@ -1,8 +1,0 @@
-*.gem
-*.gemspec
-.bundle
-Gemfile.lock
-pkg/*
-test/scratch/*
-test/scratch/**
-.DS_Store
